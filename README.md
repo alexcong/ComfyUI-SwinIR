@@ -41,6 +41,7 @@ Loads a SwinIR model with specified configuration.
 - `depths`: Comma-separated depths for each layer (e.g., "6, 6, 6, 6, 6, 6")
 - `num_heads`: Comma-separated number of attention heads (e.g., "6, 6, 6, 6, 6, 6")
 - `mlp_ratio`: MLP ratio (default: 2.0)
+- `img_size`: Training image size (default: 128) - **must match model's training size**
 
 #### SwinIR Upscale/Denoise
 Processes images using the loaded SwinIR model.
@@ -71,6 +72,7 @@ Processes images using the loaded SwinIR model.
 - Depths: "6, 6, 6, 6, 6, 6"
 - Num Heads: "6, 6, 6, 6, 6, 6"
 - MLP Ratio: 2.0
+- **Img Size: 64** (from `s64` in filename)
 
 #### Lightweight SR (x2)
 - Model: `002_lightweightSR_DIV2K_s64w8_SwinIR-S_x2.pth`
@@ -81,6 +83,7 @@ Processes images using the loaded SwinIR model.
 - Depths: "6, 6, 6, 6"
 - Num Heads: "6, 6, 6, 6"
 - MLP Ratio: 2.0
+- **Img Size: 64**
 
 #### Real-World SR (x4)
 - Model: `003_realSR_BSRGAN_DFO_s64w8_SwinIR-M_x4_GAN.pth`
@@ -91,6 +94,18 @@ Processes images using the loaded SwinIR model.
 - Depths: "6, 6, 6, 6, 6, 6"
 - Num Heads: "6, 6, 6, 6, 6, 6"
 - MLP Ratio: 2.0
+- **Img Size: 64**
+
+#### Color Denoising (Noise 25)
+- Model: `005_colorDN_DFWB_s128w8_SwinIR-M_noise25.pth`
+- Type: denoising
+- Upscale: 1
+- Window Size: 8
+- Embed Dim: 180
+- Depths: "6, 6, 6, 6, 6, 6"
+- Num Heads: "6, 6, 6, 6, 6, 6"
+- MLP Ratio: 2.0
+- **Img Size: 128** (from `s128` in filename)
 
 ## Testing
 
@@ -99,11 +114,23 @@ Run the test suite:
 python test_nodes.py
 ```
 
-The test suite includes:
+### Model Requirements for Testing
+
+The test suite includes a **real model loading test** that requires downloading a pre-trained model:
+
+1. Download `005_colorDN_DFWB_s128w8_SwinIR-M_noise25.pth` from:
+   - [SwinIR GitHub Releases](https://github.com/JingyunLiang/SwinIR/releases/tag/v0.0)
+
+2. Place the model in the same directory as `test_nodes.py`
+
+Without the model, the real model test will be skipped. Other tests run using synthetic models and don't require downloads.
+
+### Test Coverage
 - Model loading test
 - Basic upscaling test
 - Tiled processing test
 - Batch processing test
+- **Real model loading test** (validates the attention mask fix)
 
 ## Credits
 
