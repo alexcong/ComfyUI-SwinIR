@@ -14,7 +14,7 @@ A ComfyUI custom node for SwinIR (Swin Transformer for Image Restoration) suppor
 1. Clone this repository into your ComfyUI `custom_nodes` directory:
 ```bash
 cd ComfyUI/custom_nodes
-git clone https://github.com/YOUR_USERNAME/ComfyUI-SwinIR.git
+git clone https://github.com/alexcong/ComfyUI-SwinIR.git
 ```
 
 2. Install dependencies:
